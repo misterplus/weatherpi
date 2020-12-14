@@ -10,5 +10,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Component
 public class Node {
-    private String address, name;
+    private String address, nodeName, username, pass;
+    private int id;
 }
