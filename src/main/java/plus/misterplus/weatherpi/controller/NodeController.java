@@ -24,13 +24,13 @@ public class NodeController {
     }
 
     @RequestMapping(value = "/{year}/{month}/{day}", method = RequestMethod.GET)
-    public List<Record> fetch(@PathVariable String year, @PathVariable String month, @PathVariable String day, @RequestParam int index) {
+    public List<Record> fetch(@PathVariable String year, @PathVariable String month, @PathVariable String day, @RequestParam(defaultValue = "0") int index) {
         String date = String.format("%s-%s-%s", year, month, day);
         return RecordDaoImpl.getInstance().selectDay(index, date);
     }
 
     @RequestMapping(value = "/{year}/{month}", method = RequestMethod.GET)
-    public List<AvgRecord> fetch(@PathVariable String year, @PathVariable String month, @RequestParam int index){
+    public List<AvgRecord> fetch(@PathVariable String year, @PathVariable String month, @RequestParam(defaultValue = "0") int index){
         String date = String.format("%s-%s-01", year, month);
         return RecordDaoImpl.getInstance().selectMonth(index, date);
     }
