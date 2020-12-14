@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AvgRecord {
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "MM-dd")
     private Date created;
     private int avgTemp, minTemp, maxTemp, avgHumidity, avgPressure;
 }
