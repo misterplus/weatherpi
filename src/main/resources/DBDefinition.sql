@@ -13,7 +13,7 @@ CREATE TABLE `node`
 
 CREATE TABLE `record`
 (
-    `created`  DATE    NOT NULL,
+    `created`  DATETIME NOT NULL,
     `temp`     INT(3) NOT NULL,
     `humidity` INT(3) NOT NULL,
     `pressure` INT(4) NOT NULL,
