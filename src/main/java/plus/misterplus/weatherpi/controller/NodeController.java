@@ -7,6 +7,7 @@ import plus.misterplus.weatherpi.bean.Record;
 import plus.misterplus.weatherpi.bean.Status;
 import plus.misterplus.weatherpi.sql.dao.impl.NodeDaoImpl;
 import plus.misterplus.weatherpi.sql.dao.impl.RecordDaoImpl;
+import plus.misterplus.weatherpi.util.TokenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,17 +38,32 @@ public class NodeController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public Status newNode(@RequestBody Node node) {
-        int affected = NodeDaoImpl.getInstance().insert(node);
-        if (affected != 0) {
-            Status status = new Status();
-            status.setStatus("success");
-            return status;
+    public Status newNode(@RequestParam String token, @RequestBody Node node) {
+        boolean valid = TokenUtils.verify(token);
+        if (valid) {
+            int affected = NodeDaoImpl.getInstance().insert(node);
+            if (affected != 0) {
+                Status status = new Status();
+                status.setStatus("success");
+                return status;
+            }
+            else {
+                Status status = new Status();
+                status.setStatus("error");
+                status.setMsg("A database error has occurred.");
+                return status;
+            }
         }
         else {
             Status status = new Status();
             status.setStatus("error");
+            status.setMsg("Token invalid, access denied.");
             return status;
         }
+    }
+
+    @RequestMapping(value = "/remove", method = RequestMethod.DELETE)
+    public Status removeNode(@RequestParam String token, @RequestParam int id) {
+
     }
 }
