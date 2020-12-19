@@ -7,4 +7,5 @@ import java.util.List;
 public interface NodeDao {
     List<Node> selectNameAll();
     Node select(int id);
+    int insert(Node node);
 }

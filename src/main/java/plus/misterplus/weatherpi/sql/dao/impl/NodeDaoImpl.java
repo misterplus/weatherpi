@@ -25,4 +25,10 @@ public class NodeDaoImpl extends BaseDao implements NodeDao {
         String sql = "select * from node where id = ?";
         return select(MasterDB.getInstance().getConnection(), Node.class, sql, id);
     }
+
+    @Override
+    public int insert(Node node) {
+        String sql = "insert into node(address, nodeName, username, pass) values(?,?,?,?)";
+        return insert(MasterDB.getInstance().getConnection(), sql, node.getAddress(), node.getNodeName(), node.getUsername(), node.getPass());
+    }
 }

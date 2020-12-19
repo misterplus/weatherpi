@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import plus.misterplus.weatherpi.bean.AvgRecord;
 import plus.misterplus.weatherpi.bean.Node;
 import plus.misterplus.weatherpi.bean.Record;
+import plus.misterplus.weatherpi.bean.Status;
 import plus.misterplus.weatherpi.sql.dao.impl.NodeDaoImpl;
 import plus.misterplus.weatherpi.sql.dao.impl.RecordDaoImpl;
 
@@ -33,5 +34,20 @@ public class NodeController {
     public List<AvgRecord> fetch(@PathVariable String year, @PathVariable String month, @RequestParam(defaultValue = "0") int index){
         String date = String.format("%s-%s-01", year, month);
         return RecordDaoImpl.getInstance().selectMonth(index, date);
+    }
+
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public Status newNode(@RequestBody Node node) {
+        int affected = NodeDaoImpl.getInstance().insert(node);
+        if (affected != 0) {
+            Status status = new Status();
+            status.setStatus("success");
+            return status;
+        }
+        else {
+            Status status = new Status();
+            status.setStatus("error");
+            return status;
+        }
     }
 }

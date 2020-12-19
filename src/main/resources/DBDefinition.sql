@@ -22,3 +22,13 @@ CREATE TABLE `record`
     COLLATE = 'utf8_general_ci'
     ENGINE = InnoDB
 ;
+
+CREATE TABLE `admin`
+(
+    `username` VARCHAR(20) NOT NULL,
+    `password` CHAR(32) NOT NULL,
+    PRIMARY KEY (`username`) USING BTREE
+)
+    COLLATE = 'utf8_general_ci'
+    ENGINE = InnoDB
+;
