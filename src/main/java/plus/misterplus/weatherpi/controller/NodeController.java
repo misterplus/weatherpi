@@ -42,28 +42,66 @@ public class NodeController {
         boolean valid = TokenUtils.verify(token);
         if (valid) {
             int affected = NodeDaoImpl.getInstance().insert(node);
-            if (affected != 0) {
-                Status status = new Status();
-                status.setStatus("success");
-                return status;
-            }
-            else {
-                Status status = new Status();
-                status.setStatus("error");
-                status.setMsg("A database error has occurred.");
-                return status;
-            }
+            return getStatus(affected);
+        }
+        else {
+            return invalidToken();
+        }
+    }
+
+    private Status invalidToken() {
+        Status status = new Status();
+        status.setStatus("error");
+        status.setMsg("Token invalid, access denied.");
+        return status;
+    }
+
+    @RequestMapping(value = "/remove", method = RequestMethod.DELETE)
+    public Status removeNode(@RequestParam String token, @RequestParam int index) {
+        boolean valid = TokenUtils.verify(token);
+        if (valid) {
+            int affected = NodeDaoImpl.getInstance().delete(index);
+            return getStatus(affected);
+        }
+        else {
+            return invalidToken();
+        }
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    public Status updateNode(@RequestParam String token, @RequestBody Node node) {
+        boolean valid = TokenUtils.verify(token);
+        if (valid) {
+            int affected = NodeDaoImpl.getInstance().update(node);
+            return getStatus(affected);
+        }
+        else {
+            return invalidToken();
+        }
+    }
+
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public Object nodeInfo(@RequestParam String token, @RequestParam int index) {
+        boolean valid = TokenUtils.verify(token);
+        if (valid) {
+            return NodeDaoImpl.getInstance().select(index + 1);
+        }
+        else {
+            return invalidToken();
+        }
+    }
+
+    private Status getStatus(int affected) {
+        if (affected != 0) {
+            Status status = new Status();
+            status.setStatus("success");
+            return status;
         }
         else {
             Status status = new Status();
             status.setStatus("error");
-            status.setMsg("Token invalid, access denied.");
+            status.setMsg("A database error has occurred.");
             return status;
         }
-    }
-
-    @RequestMapping(value = "/remove", method = RequestMethod.DELETE)
-    public Status removeNode(@RequestParam String token, @RequestParam int id) {
-
     }
 }

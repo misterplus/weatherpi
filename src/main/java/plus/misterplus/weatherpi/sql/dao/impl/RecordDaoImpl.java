@@ -18,7 +18,7 @@ public class RecordDaoImpl extends BaseDao implements RecordDao {
 
     @Override
     public List<Record> selectDay(int index, String day) {
-        String sql = "select * from record where created >= ? and created < ?";
+        String sql = "select * from record where created >= ? and created < ? order by created asc";
         Date date = DBUtils.convertSimpleDateString(day);
         Date endDate = DBUtils.nextDay(date);
         String start = DBUtils.convertComplexDate(date);
